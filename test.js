@@ -37,4 +37,40 @@ $( function(){
         equal( lastEvent.previous, stash.get( 2 ) );
         equal( lastEvent.next, null );
     } );
+
+    test( 'KeyValueStash.{set/add}ByKey', function(){
+        var stash, lastEvent;
+
+        stash = new yzzy.stash.KeyValueStash();
+        deepEqual( stash.all(), [] );
+
+        var alice, bob, charlie;
+        stash.bind( 'set', {
+            'alice': function(){
+                alice = true;
+            },
+            'bob': function(){
+                charlie = false;
+                bob = true;
+            },
+        } );
+        stash.bind( 'set', function(){
+            alice = false;
+            bob = false;
+            charlie = true;
+        } );
+
+        stash.set( 'alice', 0 );
+        ok( alice );
+        ok( !bob );
+        ok( !charlie );
+        stash.set( 'charlie', 0 );
+        ok( !alice );
+        ok( !bob );
+        ok( charlie );
+        stash.set( 'bob', 0 );
+        ok( !alice );
+        ok( bob );
+        ok( !charlie );
+    } );
 } );
