@@ -52,7 +52,7 @@ $( function(){
             'bob': function(){
                 charlie = false;
                 bob = true;
-            },
+            }
         } );
         stash.bind( 'set', function(){
             alice = false;
@@ -72,5 +72,19 @@ $( function(){
         ok( !alice );
         ok( bob );
         ok( !charlie );
+    } );
+
+    test( 'slice', function(){
+        var stash;
+
+        stash = { alice: 1, bob: 2, charlie: 3 };
+        deepEqual( yzzy.stash.slice( stash, [ 'alice', 'bob' ] ).copy(), {
+            alice: 1,
+            bob: 2
+        } );
+        deepEqual( yzzy.stash.slice( stash, [] ).copy(), {} );
+        deepEqual( yzzy.stash.slice( stash, [ 'charlie' ] ).copy(), {
+            charlie: 3
+        } );
     } );
 } );

@@ -5,11 +5,9 @@ if ( yzzy === null || yzzy === undefined ) {
 
 ( function(){
 
+    var $log = yzzy.log;
     var $stash;
     yzzy.stash = $stash = {};
-
-    // TODO 'add' trigger on non-existing keyed value
-    
     _.extend( $stash.KeyValueStash = function( $cfg ){
         var self = this;
         if ( ! $cfg ) {
@@ -81,6 +79,29 @@ if ( yzzy === null || yzzy === undefined ) {
             }
         }
     
+    } } );
+
+    var $slice;
+    yzzy.stash.slice = $slice = function( from, keyList ){
+        var slice = new $slice.Slice({
+            from: from,
+            keyList: keyList
+        });
+        return slice;
+    };
+    _.extend( $slice.Slice = function( $cfg ){
+        var self = this;
+        self.from = $cfg.from;
+        self.keyList = $cfg.keyList;
+    }, { 'prototype': {
+        'copy': function(){
+            var self = this;
+            var to = self.to || {};
+            _.each( self.keyList, function( key ){
+                to[ key ] = self.from[ key ];
+            } );
+            return to;
+        }
     } } );
 
 }() );
