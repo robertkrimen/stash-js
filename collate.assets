@@ -1,0 +1,20 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+sub {
+    my ( $assets ) = @_;
+
+    $assets->declare( 'stash',
+        include => <<_END_,
+stash.js
+_END_
+        import => <<_END_
+underscore
+jquery
+yzzy
+_END_
+    );
+
+}
